@@ -2,6 +2,9 @@
 *.apk
 *.ap_
 
+.settings
+lint.xml
+
 # files for the dex VM
 *.dex
 

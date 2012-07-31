@@ -10,7 +10,7 @@ import android.content.DialogInterface;
  * 
  * @author tom
  */
-public class DialogUtils {
+public abstract class DialogUtils {
 
 	/**
 	 * Shows an OK dialog box using the android OK string.

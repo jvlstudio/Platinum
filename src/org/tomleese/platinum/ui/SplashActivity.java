@@ -37,7 +37,7 @@ public abstract class SplashActivity extends Activity {
 
 	            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 	        }
-	    }, 2000);
+	    }, 1600);
 	}
 	
 	/**

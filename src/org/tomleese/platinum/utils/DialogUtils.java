@@ -1,4 +1,4 @@
-package org.tomleese.platinum;
+package org.tomleese.platinum.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.content.DialogInterface;
  * a minimal amount of code.
  * 
  * @author tom
- *
  */
 public class DialogUtils {
 

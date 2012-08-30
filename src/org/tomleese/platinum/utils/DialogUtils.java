@@ -29,23 +29,31 @@ public class DialogUtils {
 	/**
 	 * A callback for a text dialog.
 	 */
-	public static interface OnTextCallback extends OnDialogCallback {
+	public static abstract class OnTextCallback implements OnDialogCallback {
 		/**
 		 * Called when the OK button is pressed
 		 * @param text The text of the input of the dialog
 		 */
-		public void onText(String text);
+		public abstract void onText(String text);
+
+		public void onButtonPressed(int button) {
+			
+		}
 	}
 	
 	/**
 	 * A callback for a boolean dialog.
 	 */
-	public static interface OnBooleanCallback extends OnDialogCallback {
+	public static abstract class OnBooleanCallback implements OnDialogCallback {
 		/**
 		 * Called when the Yes/No button is pressed
 		 * @param value True or False depending on the button pressed
 		 */
 		public abstract void onBoolean(boolean value);
+
+		public void onButtonPressed(int button) {
+			
+		}
 	}
 	
 	private static String getStringRes(Context context, Integer id) {

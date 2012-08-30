@@ -12,6 +12,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+/**
+ * An activity that can be used to take a picture using the android camera,
+ * and recieve the resulting URI.
+ * 
+ * @author Tom Leese
+ */
 public abstract class CameraActivity extends Activity {
 
 	private static final int REQUEST_CODE = 1;
@@ -20,6 +26,8 @@ public abstract class CameraActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// TODO: make it use the application name
 		
 		File galleryFile = new File(Environment.getExternalStorageDirectory() + "/DCIM/QuickPics/");
 		galleryFile.mkdirs();
@@ -33,8 +41,6 @@ public abstract class CameraActivity extends Activity {
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, CURRENT_URI);
 		startActivityForResult(intent, REQUEST_CODE);
 	}
-	
-	public abstract void onPhotoTaken(Uri uri);
 	
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -50,5 +56,12 @@ public abstract class CameraActivity extends Activity {
     	
     	finish();
     }
+	
+	/**
+	 * Called when the photo gets taken.
+	 * 
+	 * @param uri The URI to the photo
+	 */
+	public abstract void onPhotoTaken(Uri uri);
 	
 }

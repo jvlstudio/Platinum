@@ -11,6 +11,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 
+/**
+ * An activity that can be used to choose a picture using the android gallery,
+ * and recieve the resulting URI.
+ * 
+ * @author Tom Leese
+ */
 public abstract class GalleryActivity extends Activity {
 
 	private static final int REQUEST_CODE = 0;
@@ -37,8 +43,6 @@ public abstract class GalleryActivity extends Activity {
 		}
 	}
 	
-	public abstract void onPhotoChosen(Uri uri);
-	
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	super.onActivityResult(requestCode, resultCode, data);
@@ -53,5 +57,12 @@ public abstract class GalleryActivity extends Activity {
 
     	finish();
     }
+	
+	/**
+	 * Called when a picture has been selected.
+	 * 
+	 * @param uri The URI to the resulting image
+	 */
+	public abstract void onPhotoChosen(Uri uri);
 	
 }

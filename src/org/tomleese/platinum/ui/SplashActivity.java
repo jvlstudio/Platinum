@@ -12,9 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * An activity that provides a simple splash screen with an image that fades in and out.
+ * An activity that provides a simple splash screen with an image and label
+ * that fades in and out.
  * 
- * @author tom
+ * @author Tom Leese
  */
 public abstract class SplashActivity extends Activity {
 
@@ -55,7 +56,7 @@ public abstract class SplashActivity extends Activity {
 	public abstract Intent getNextIntent();
 	
 	/**
-	 * @return The {@link Drawable} to be used in the splash screen.
+	 * @return The {@link android.graphics.drawable.Drawable} to be used in the splash screen.
 	 */
 	public abstract Drawable getDrawable();
 	

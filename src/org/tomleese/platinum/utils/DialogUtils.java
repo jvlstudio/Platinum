@@ -10,7 +10,7 @@ import android.widget.EditText;
  * Provides methods to quickly and easily create dialog boxes with
  * a minimal amount of code.
  * 
- * @author tom
+ * @author Tom Leese
  */
 public class DialogUtils {
 
@@ -130,7 +130,8 @@ public class DialogUtils {
 		builder.setView(editable);
 		builder.setCancelable(false);
 		
-		builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(android.R.string.yes,
+				new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				callback.onText(editable.getText().toString());
@@ -139,7 +140,8 @@ public class DialogUtils {
 			
 		});
 		
-		builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(android.R.string.no,
+				new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				callback.onText(null);
@@ -164,7 +166,8 @@ public class DialogUtils {
 	 * @param callback The text callback of the dialog
 	 * @return The new dialog box
 	 */
-	public static AlertDialog getString(Context context, Integer titleId, Integer messageId, Integer textId, OnTextCallback callback) {
+	public static AlertDialog getString(Context context, Integer titleId,
+			Integer messageId, Integer textId, OnTextCallback callback) {
 		String title = getStringRes(context, titleId);
 		String message = getStringRes(context, messageId);
 		String text = getStringRes(context, textId);
@@ -181,14 +184,16 @@ public class DialogUtils {
 	 * @param callback The text callback of the dialog
 	 * @return The new dialog box
 	 */
-	public static AlertDialog getBoolean(Context context, String title, String message, final OnBooleanCallback callback) {
+	public static AlertDialog getBoolean(Context context, String title,
+			String message, final OnBooleanCallback callback) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		if (title != null) builder.setTitle(title);
 		if (message != null) builder.setMessage(message);
 		
 		builder.setCancelable(false);
 		
-		builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(android.R.string.yes,
+				new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				callback.onBoolean(true);
@@ -197,7 +202,8 @@ public class DialogUtils {
 			
 		});
 		
-		builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(android.R.string.no,
+				new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				callback.onBoolean(false);
@@ -220,7 +226,8 @@ public class DialogUtils {
 	 * @param callback The text callback of the dialog
 	 * @return The new dialog box
 	 */
-	public static AlertDialog getBoolean(Context context, Integer titleId, Integer messageId, final OnBooleanCallback callback) {
+	public static AlertDialog getBoolean(Context context, Integer titleId,
+			Integer messageId, final OnBooleanCallback callback) {
 		String title = getStringRes(context, titleId);
 		String message = getStringRes(context, messageId);
 		
@@ -235,7 +242,8 @@ public class DialogUtils {
 	 * @param message The message of the progress dialog, can be null
 	 * @return The new progress dialog
 	 */
-	public static ProgressDialog showProgressDialog(Context context, String title, String message) {
+	public static ProgressDialog showProgressDialog(Context context,
+			String title, String message) {
 		if (title == null) {
 			title = "";
 		}
@@ -255,7 +263,8 @@ public class DialogUtils {
 	 * @param message The message ID of the progress dialog, can be null
 	 * @return The new progress dialog
 	 */
-	public static ProgressDialog showProgressDialog(Context context, Integer titleId, Integer messageId) {
+	public static ProgressDialog showProgressDialog(Context context,
+			Integer titleId, Integer messageId) {
 		String title = getStringRes(context, titleId);
 		String message = getStringRes(context, messageId);
 		

@@ -1,6 +1,7 @@
 package org.tomleese.platinum.utils;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.EditText;
@@ -14,18 +15,37 @@ import android.widget.EditText;
 public class DialogUtils {
 
 	/**
-	 * A callback for a text dialog.
-	 * 
-	 * @author tom
+	 * A generic callback for all dialog boxes.
 	 *
 	 */
-	public static interface OnTextCallback {
+	public static interface OnDialogCallback {
+		/**
+		 * Called when a button of the dialog is pressed.
+		 * @param button The button ID pressed, will be the index of the buttons in the dialog.
+		 */
+		public void onButtonPressed(int button);
+	}
+	
+	/**
+	 * A callback for a text dialog.
+	 */
+	public static interface OnTextCallback extends OnDialogCallback {
 		/**
 		 * Called when the OK button is pressed
 		 * @param text The text of the input of the dialog
-		 * @return True if the text is valid and the dialog should be dismissed
 		 */
-		public boolean onText(String text);
+		public void onText(String text);
+	}
+	
+	/**
+	 * A callback for a boolean dialog.
+	 */
+	public static interface OnBooleanCallback extends OnDialogCallback {
+		/**
+		 * Called when the Yes/No button is pressed
+		 * @param value True or False depending on the button pressed
+		 */
+		public abstract void onBoolean(boolean value);
 	}
 	
 	private static String getStringRes(Context context, Integer id) {
@@ -42,9 +62,11 @@ public class DialogUtils {
 	 * @param context The context for the dialog box
 	 * @param title The title of the dialog box, can be null.
 	 * @param message The message of the dialog box, can be null.
+	 * @param callback The callback of the dialog box, can be null.
 	 * @return The new dialog box
 	 */
-	public static AlertDialog showOkDialog(Context context, String title, String message) {
+	public static AlertDialog showOkDialog(Context context, String title,
+			String message, final OnDialogCallback callback) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		if (title != null) { builder.setTitle(title); }
 		if (message != null) { builder.setMessage(message); }
@@ -55,6 +77,10 @@ public class DialogUtils {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
+				
+				if (callback != null) {
+					callback.onButtonPressed(0);
+				}
 			}
 		});
 		
@@ -71,13 +97,15 @@ public class DialogUtils {
 	 * @param context The context for the dialog box
 	 * @param titleId The title ID of the dialog box, can be null.
 	 * @param messageId The message ID of the dialog box, can be null.
+	 * @param callback The callback of the dialog box, can be null.
 	 * @return The new dialog box
 	 */
-	public static AlertDialog showOkDialog(Context context, Integer titleId, Integer messageId) {
+	public static AlertDialog showOkDialog(Context context, Integer titleId,
+			Integer messageId, OnDialogCallback callback) {
 		String title = getStringRes(context, titleId);
 		String message = getStringRes(context, messageId);
 		
-		return showOkDialog(context, title, message);
+		return showOkDialog(context, title, message, callback);
 	}
 	
 	/**
@@ -90,7 +118,8 @@ public class DialogUtils {
 	 * @param callback The text callback of the dialog
 	 * @return The new dialog box
 	 */
-	public static AlertDialog getString(Context context, String title, String message, String text, final OnTextCallback callback) {
+	public static AlertDialog getString(Context context, String title,
+			String message, String text, final OnTextCallback callback) {
 		final EditText editable = new EditText(context);
 		if (text != null) editable.setText(text);
 		
@@ -104,9 +133,17 @@ public class DialogUtils {
 		builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
-				if (callback.onText(editable.getText().toString())) {
-					dialog.dismiss();
-				}
+				callback.onText(editable.getText().toString());
+				callback.onButtonPressed(0);
+			}
+			
+		});
+		
+		builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				callback.onText(null);
+				callback.onButtonPressed(1);
 			}
 			
 		});
@@ -133,5 +170,95 @@ public class DialogUtils {
 		String text = getStringRes(context, textId);
 		
 		return getString(context, title, message, text, callback);
+	}
+	
+	/**
+	 * Shows a Yes/No dialog with a message
+	 * 
+	 * @param context The context for the dialog box
+	 * @param title The title of the dialog box, can be null.
+	 * @param message The message of the dialog box, can be null.
+	 * @param callback The text callback of the dialog
+	 * @return The new dialog box
+	 */
+	public static AlertDialog getBoolean(Context context, String title, String message, final OnBooleanCallback callback) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		if (title != null) builder.setTitle(title);
+		if (message != null) builder.setMessage(message);
+		
+		builder.setCancelable(false);
+		
+		builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				callback.onBoolean(true);
+				callback.onButtonPressed(0);
+			}
+			
+		});
+		
+		builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				callback.onBoolean(false);
+				callback.onButtonPressed(0);
+			}
+		});
+		
+		AlertDialog dialog = builder.create();
+		dialog.show();
+		
+		return dialog;
+	}
+	
+	/**
+	 * Shows a Yes/No dialog with a message
+	 * 
+	 * @param context The context for the dialog box
+	 * @param title The title ID of the dialog box, can be null.
+	 * @param message The message ID of the dialog box, can be null.
+	 * @param callback The text callback of the dialog
+	 * @return The new dialog box
+	 */
+	public static AlertDialog getBoolean(Context context, Integer titleId, Integer messageId, final OnBooleanCallback callback) {
+		String title = getStringRes(context, titleId);
+		String message = getStringRes(context, messageId);
+		
+		return getBoolean(context, title, message, callback);
+	}
+	
+	/**
+	 * Shows a simple progress dialog
+	 * 
+	 * @param context The context for the progress dialog
+	 * @param title The title of the progress dialog, can be null
+	 * @param message The message of the progress dialog, can be null
+	 * @return The new progress dialog
+	 */
+	public static ProgressDialog showProgressDialog(Context context, String title, String message) {
+		if (title == null) {
+			title = "";
+		}
+		
+		if (message == null) {
+			message = "";
+		}
+		
+		return ProgressDialog.show(context, title, message);
+	}
+	
+	/**
+	 * Shows a simple progress dialog
+	 * 
+	 * @param context The context for the progress dialog
+	 * @param title The title ID of the progress dialog, can be null
+	 * @param message The message ID of the progress dialog, can be null
+	 * @return The new progress dialog
+	 */
+	public static ProgressDialog showProgressDialog(Context context, Integer titleId, Integer messageId) {
+		String title = getStringRes(context, titleId);
+		String message = getStringRes(context, messageId);
+		
+		return showProgressDialog(context, title, message);
 	}
 }

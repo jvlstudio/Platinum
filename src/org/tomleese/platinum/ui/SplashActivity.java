@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Window;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * An activity that provides a simple splash screen with an image that fades in and out.
@@ -21,14 +22,22 @@ public abstract class SplashActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setTheme(android.R.style.Theme_Black);
+		setTheme(android.R.style.Theme_Black_NoTitleBar);
+		setContentView(R.layout.activity_splash);
 		
-		ImageView imageView = new ImageView(this);
-		setContentView(imageView);
+		ImageView imageView = (ImageView) findViewById(R.id.activity_splash_image);
+		TextView textView = (TextView) findViewById(R.id.activity_splash_caption);
 		
 		imageView.setImageDrawable(getDrawable());
 		imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fadein));
+		
+		String caption = getCaption();
+		if (caption == null) {
+			textView.setVisibility(View.GONE);
+		} else {
+			textView.setText(caption);
+			textView.setTextColor(0xFFFFFF);
+		}
 		
 		new Handler().postDelayed(new Runnable() {
 	        public void run() {
@@ -49,5 +58,10 @@ public abstract class SplashActivity extends Activity {
 	 * @return The {@link Drawable} to be used in the splash screen.
 	 */
 	public abstract Drawable getDrawable();
+	
+	/**
+	 * @return The {@link String} to be used in the caption, can be null.
+	 */
+	public abstract String getCaption();
 		
 }

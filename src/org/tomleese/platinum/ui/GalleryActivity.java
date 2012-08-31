@@ -29,11 +29,9 @@ public abstract class GalleryActivity extends Activity {
 		try {
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 			intent.setType("image/*");
-			intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.name());
+			intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.name());
 			
-			File outputFile = File.createTempFile("gallery", ".png", getCacheDir());
-			
-			CURRENT_URI = Uri.fromFile(outputFile);
+			CURRENT_URI = Uri.fromFile(File.createTempFile("gallery", ".jpg", getCacheDir()));
 			
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, CURRENT_URI);
 			startActivityForResult(intent, REQUEST_CODE);

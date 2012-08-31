@@ -1,14 +1,11 @@
 package org.tomleese.platinum.ui;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import java.io.IOException;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -27,19 +24,17 @@ public abstract class CameraActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// TODO: make it use the application name
-		
-		File galleryFile = new File(Environment.getExternalStorageDirectory() + "/DCIM/QuickPics/");
-		galleryFile.mkdirs();
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-		galleryFile = new File(Environment.getExternalStorageDirectory() + "/DCIM/QuickPics/" + dateFormat.format(new Date()) + ".jpg");
-		
-		CURRENT_URI = Uri.fromFile(galleryFile); 
-		
-		Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, CURRENT_URI);
-		startActivityForResult(intent, REQUEST_CODE);
+		try {
+			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+			
+			CURRENT_URI = Uri.fromFile(File.createTempFile("gallery", ".jpg", getCacheDir()));
+			
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, CURRENT_URI);
+			startActivityForResult(intent, REQUEST_CODE);
+		} catch (IOException e) {
+			e.printStackTrace();
+			finish();
+		}
 	}
 	
 	@Override

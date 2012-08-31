@@ -42,7 +42,7 @@ public abstract class CameraActivity extends Activity {
     	super.onActivityResult(requestCode, resultCode, data);
     	
     	Log.d("CameraActivity", "Got photo from camera...");
-    	    	
+    	
     	if (resultCode == RESULT_OK) {
 	        if (requestCode == REQUEST_CODE) {
 	        	onPhotoTaken(CURRENT_URI);

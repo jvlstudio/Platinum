@@ -37,14 +37,13 @@ public abstract class SplashActivity extends Activity {
 			textView.setVisibility(View.GONE);
 		} else {
 			textView.setText(caption);
-			textView.setTextColor(0xFFFFFF);
 		}
 		
 		new Handler().postDelayed(new Runnable() {
 	        public void run() {
 	            startActivity(getNextIntent());
 	            finish();
-
+	            
 	            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 	        }
 	    }, 1600);

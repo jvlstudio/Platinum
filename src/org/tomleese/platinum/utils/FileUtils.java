@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.net.URI;
 
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * A set of methods for working with files under android.
@@ -41,6 +42,7 @@ public abstract class FileUtils {
 	 * @return A newly opened file
 	 */
 	public static File openFile(Uri uri) {
+		Log.d("FileUtils", "Opening file: " + uri.toString());
 		return new File(FileUtils.androidUriToJavaUri(uri));
 	}
 	
@@ -52,6 +54,7 @@ public abstract class FileUtils {
 	 * @throws FileNotFoundException
 	 */
 	public static FileInputStream openFileInStream(Uri uri) throws FileNotFoundException {
+		Log.d("FileUtils", "Opening file input stream: " + uri);
 		return new FileInputStream(FileUtils.openFile(uri));
 	}
 	
@@ -63,6 +66,7 @@ public abstract class FileUtils {
 	 * @throws FileNotFoundException
 	 */
 	public static FileOutputStream openFileOutStream(Uri uri) throws FileNotFoundException {
+		Log.d("FileUtils", "Opening file output stream: " + uri);
 		return new FileOutputStream(FileUtils.openFile(uri));
 	}
 	

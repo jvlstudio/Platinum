@@ -18,6 +18,7 @@ public class IntentOnClickListener implements
 	private Intent intent;
 	
 	/**
+	 * Uses the intent provided when a button is clicked.
 	 * 
 	 * @param activity The parent activity, to call startActivity on
 	 * @param intent The intent to be started

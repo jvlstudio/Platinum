@@ -13,8 +13,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import org.tomleese.platinum.R;
+import org.tomleese.platinum.callbacks.FinishOnClickListener;
 import org.tomleese.platinum.utils.DialogUtils;
-import org.tomleese.platinum.utils.DialogUtils.OnDialogCallback;
 import org.tomleese.platinum.utils.FileUtils;
 import org.tomleese.platinum.utils.MediaUtils;
 
@@ -91,14 +91,8 @@ public abstract class CameraActivity extends Activity {
      * @param e The exception that caused it
      */
     public void onPhotoError(Exception e) {
-        DialogUtils.showOkDialog(this, R.string.error_camera, null, new OnDialogCallback() {
-            
-            @Override
-            public void onButtonPressed(int button) {
-                finish();
-            }
-            
-        });
+        DialogUtils.showOkDialog(this, R.string.error_camera, null,
+                new FinishOnClickListener(this));
     }
 	
 }

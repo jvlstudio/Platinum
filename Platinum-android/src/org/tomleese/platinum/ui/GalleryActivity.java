@@ -14,10 +14,10 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import org.tomleese.platinum.R;
+import org.tomleese.platinum.callbacks.FinishOnClickListener;
 import org.tomleese.platinum.utils.DialogUtils;
 import org.tomleese.platinum.utils.FileUtils;
 import org.tomleese.platinum.utils.MediaUtils;
-import org.tomleese.platinum.utils.DialogUtils.OnDialogCallback;
 
 /**
  * An activity that can be used to choose a picture using the android gallery,
@@ -93,14 +93,8 @@ public abstract class GalleryActivity extends Activity {
 	 * @param e The exception that caused it
 	 */
 	public void onPhotoError(Exception e) {
-	    DialogUtils.showOkDialog(this, R.string.error_gallery, null, new OnDialogCallback() {
-            
-            @Override
-            public void onButtonPressed(int button) {
-                finish();
-            }
-            
-        });
+	    DialogUtils.showOkDialog(this, R.string.error_gallery, null,
+	            new FinishOnClickListener(this));
 	}
 	
 }

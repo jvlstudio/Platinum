@@ -12,7 +12,7 @@ import org.tomleese.platinum.callbacks.DismissOnClickListener;
  * 
  * @author Tom Leese
  */
-public class DialogUtils {
+public abstract class DialogUtils {
     
 	private static String getStringRes(Context context, Integer id) {
 		if (id == null) {

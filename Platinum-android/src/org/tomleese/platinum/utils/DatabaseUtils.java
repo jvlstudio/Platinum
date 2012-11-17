@@ -72,7 +72,7 @@ public abstract class DatabaseUtils extends android.database.DatabaseUtils {
 			cursor.close();
 		}
 
-		if (database != null && closeDatabase) {
+		if (closeDatabase && database != null) {
 			database.close();
 		}
 
@@ -96,15 +96,17 @@ public abstract class DatabaseUtils extends android.database.DatabaseUtils {
 			boolean closeCursor) {
 		return cursorToList(klass, cursor, closeCursor, null, false);
 	}
-
+	
 	/**
 	 * Converts a cursor into a list of classes. The class type must have a
 	 * constructor which takes a ContentValues instance. This does not close the
 	 * cursor or database at the end.
 	 * 
 	 * @param klass
+	 *            The class type to create an instance of
 	 * @param cursor
-	 * @return
+	 *            The cursor to look through
+	 * @return A new list of items
 	 */
 	public static <T> List<T> cursorToList(Class<T> klass, Cursor cursor) {
 		return cursorToList(klass, cursor, false);

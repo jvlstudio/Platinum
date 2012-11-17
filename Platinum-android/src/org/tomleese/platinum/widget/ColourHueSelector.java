@@ -1,4 +1,4 @@
-package org.tomleese.platinum.ui;
+package org.tomleese.platinum.widget;
 
 import org.tomleese.platinum.R;
 

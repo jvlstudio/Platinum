@@ -1,7 +1,10 @@
-package org.tomleese.platinum.ui;
+package org.tomleese.platinum.app;
 
 import org.tomleese.platinum.R;
-import org.tomleese.platinum.ui.ColourHueSelector.OnHueSelectedListener;
+import org.tomleese.platinum.widget.ColourHueSelector;
+import org.tomleese.platinum.widget.ColourSatValSelector;
+import org.tomleese.platinum.widget.ColourHueSelector.OnHueSelectedListener;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;

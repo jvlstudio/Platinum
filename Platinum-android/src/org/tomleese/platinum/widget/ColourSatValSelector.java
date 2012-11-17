@@ -1,4 +1,4 @@
-package org.tomleese.platinum.ui;
+package org.tomleese.platinum.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

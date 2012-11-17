@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 
 import android.net.Uri;
@@ -16,6 +19,8 @@ import android.util.Log;
  */
 public abstract class FileUtils {
 
+	protected static final String TAG = "FileUtils";
+	
 	/**
 	 * Converts an android Uri class to a java URI class.
 	 * 
@@ -68,6 +73,47 @@ public abstract class FileUtils {
 	public static FileOutputStream openFileOutStream(Uri uri) throws FileNotFoundException {
 		Log.d("FileUtils", "Opening file output stream: " + uri);
 		return new FileOutputStream(FileUtils.openFile(uri));
+	}
+	
+	public static void copyFile(InputStream in, OutputStream out, boolean closeStreams) throws IOException {
+		Log.d(TAG, "Copying streams: " + in.toString() + " -> " + out.toString());
+		
+		int len = 0;
+		byte[] buffer = new byte[1024];
+		while ((len = in.read(buffer)) != -1) {
+		    out.write(buffer, 0, len);
+		}
+		
+		if (closeStreams) {
+			in.close();
+			out.close();
+		}
+	}
+	
+	/**
+	 * Copies the contents of first file into the second file.
+	 * 
+	 * @param file1 The first file
+	 * @param file2 The second file
+	 * @throws IOException If an IO error occurs while reading or writing
+	 * @throws FileNotFoundException If either of the files cannot be found or cannot be written to
+	 */
+	public static void copyFile(File file1, File file2) throws FileNotFoundException, IOException {
+		Log.d(TAG, "Copying file: " + file1.getPath() + " -> " + file2.getPath());
+		copyFile(new FileInputStream(file1), new FileOutputStream(file2), true);
+	}
+	
+	/**
+	 * Copies the contents from a file found at the first Uri, into the file at the second.
+	 * 
+	 * @param uri1 The location of the first file
+	 * @param uri2 The location of the second file
+	 * @throws FileNotFoundException If either of the files cannot be found or cannot be written to
+	 * @throws IOException If an IO error occurs while reading or writing
+	 */
+	public static void copyFile(Uri uri1, Uri uri2) throws FileNotFoundException, IOException {
+		Log.d(TAG, "Copying file: " + uri1.toString() + " -> " + uri2.toString());
+		copyFile(openFileInStream(uri1), openFileOutStream(uri2), true);
 	}
 	
 }

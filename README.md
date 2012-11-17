@@ -8,5 +8,6 @@ Features
 
  - Quick ways of creating Splash, Camera and Gallery Activities
  - Utilities for creating dialogue boxes with one line of code
- - Utilities for working with files
+ - Utilities for working with files, displays, resources
  - A set of callbacks to reduce boiler-plate code
+

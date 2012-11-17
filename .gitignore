@@ -4,6 +4,7 @@
 
 .settings
 lint.xml
+javadoc.xml
 
 # files for the dex VM
 *.dex

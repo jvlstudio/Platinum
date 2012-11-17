@@ -18,32 +18,38 @@ import org.tomleese.platinum.utils.FileUtils;
 import org.tomleese.platinum.utils.IntentUtils;
 
 /**
- * An activity that can be used to take a picture using the android camera,
- * and receive the resulting Uri.
+ * An activity that can be used to take a picture using the android camera, and
+ * receive the resulting Uri.
+ * 
+ * You should start this activity by using startActivityForResult. You can get
+ * the Uri to the photo filename by using Intent.getData().
  * 
  * @author Tom Leese
  */
 public class CameraActivity extends Activity {
-	
+
 	private static final int REQUEST_CODE = 1;
 	private static final String TAG = "CameraActivity";
 	private static Uri sCurrentUri = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		try {
-			Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-			
-			File tempFile = File.createTempFile("camera", ".jpg", getExternalCacheDir());
+			Intent intent = new Intent(
+					android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+			File tempFile = File.createTempFile("camera", ".jpg",
+					getExternalCacheDir());
 			sCurrentUri = Uri.fromFile(tempFile);
-			
-			Log.d(TAG, "Creating temporary file for camera image: " + sCurrentUri.toString());
-			
+
+			Log.d(TAG, "Creating temporary file for camera image: "
+					+ sCurrentUri.toString());
+
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, sCurrentUri);
 			intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.name());
-			
+
 			Log.d(TAG, "Requested camera intent...");
 			startActivityForResult(intent, REQUEST_CODE);
 		} catch (IOException e) {
@@ -51,37 +57,43 @@ public class CameraActivity extends Activity {
 			finish();
 		}
 	}
-	
+
 	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	super.onActivityResult(requestCode, resultCode, data);
-    	
-    	if (requestCode == REQUEST_CODE) {
-    		Log.d(TAG, "Got photo response from the camera");
-    		
-	    	if (resultCode == RESULT_OK) {
-	    		if (FileUtils.openFile(sCurrentUri).length() <= 0L) {
-	            	try {
-		            	InputStream is = getContentResolver().openInputStream(data.getData());
-			            Bitmap bitmap = BitmapFactory.decodeStream(is);
-			            if (bitmap != null) {
-			            	bitmap.compress(CompressFormat.JPEG, 100, FileUtils.openFileOutStream(sCurrentUri));
-		                	bitmap.recycle();
-		                	
-		                	setResult(RESULT_OK, IntentUtils.createIntentWithData(sCurrentUri));
-			            }
-	            	} catch (IOException e) {
-	            		setResult(RESULT_CANCELED);
-	            	}
-	            } else {
-	                setResult(RESULT_OK, IntentUtils.createIntentWithData(sCurrentUri));
-	            }
-	    	} else {
-	    		setResult(RESULT_CANCELED);
-	    	}
-    	}
-    	
-    	finish();
-    }
-	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_CODE) {
+			Log.d(TAG, "Got photo response from the camera");
+
+			if (resultCode == RESULT_OK) {
+				if (FileUtils.openFile(sCurrentUri).length() <= 0L) {
+					try {
+						InputStream is = getContentResolver().openInputStream(
+								data.getData());
+						Bitmap bitmap = BitmapFactory.decodeStream(is);
+						
+						if (bitmap != null) {
+							bitmap.compress(CompressFormat.JPEG, 100,
+									FileUtils.openFileOutStream(sCurrentUri));
+							bitmap.recycle();
+
+							setResult(RESULT_OK,
+									IntentUtils
+											.createIntentWithData(sCurrentUri));
+						}
+					} catch (IOException e) {
+						setResult(RESULT_CANCELED);
+					}
+				} else {
+					setResult(RESULT_OK,
+							IntentUtils.createIntentWithData(sCurrentUri));
+				}
+			} else {
+				setResult(RESULT_CANCELED);
+			}
+		}
+
+		finish();
+	}
+
 }

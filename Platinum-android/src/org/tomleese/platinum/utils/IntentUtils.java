@@ -9,11 +9,13 @@ import android.net.Uri;
  * @author tom
  */
 public abstract class IntentUtils {
-	
+
 	/**
-	 * Creates a new, empty, intent object and sets the data to the Uri provided. 
+	 * Convenience function that creates a new, empty, intent object and sets the
+	 * data to the {@link android.net.Uri} provided.
 	 * 
-	 * @param data The uri to be used as the data for the intent.
+	 * @param data
+	 *            The uri to be used as the data for the intent.
 	 * @return A new intent
 	 */
 	public static Intent createIntentWithData(Uri data) {
@@ -21,5 +23,5 @@ public abstract class IntentUtils {
 		intent.setData(data);
 		return intent;
 	}
-	
+
 }

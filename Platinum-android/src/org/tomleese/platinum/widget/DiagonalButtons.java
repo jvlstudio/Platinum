@@ -22,6 +22,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ * A button view that provides two triangles side by side. 
+ * 
+ * @author Tom Leese
+ */
 public class DiagonalButtons extends View {
 	
 	protected static final String TAG = "DiagonalButtons";
@@ -32,7 +37,7 @@ public class DiagonalButtons extends View {
 		SouthEast,
 		SouthWest
 	}
-
+	
 	private OnClickListener mBtn1Listener, mBtn2Listener;
 	private Bitmap mButtonBitmap1, mButtonBitmap2;
 	private boolean mBeingTouched1 = false, mBeingTouched2 = false;
@@ -58,6 +63,7 @@ public class DiagonalButtons extends View {
 	public DiagonalButtons(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		
+		// FIXME: see if this is actually necessary?
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}

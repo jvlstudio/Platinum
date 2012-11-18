@@ -43,7 +43,7 @@ import android.widget.TextView;
 public class SplashActivity extends Activity {
 	
 	protected static final String TAG = "SplashActivity";
-	protected static final String METADATA_SPLASH = "org.tomleese.platinum.splash";
+	protected static final String METADATA = "org.tomleese.platinum.splash";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,19 +62,16 @@ public class SplashActivity extends Activity {
 							| PackageManager.GET_META_DATA);
 			Bundle metaData = app.metaData;
 			
-			final int res = metaData.getInt(METADATA_SPLASH, 0);
+			final int res = metaData.getInt(METADATA, 0);
 			XmlResourceParser parser = getResources().getXml(res);
-			AttributeSet attrs = ResourceUtils.readAttributeSetFromElement(
-					parser, "splash");
+			AttributeSet attrs = ResourceUtils.readAttributeSetFromElement(parser, "splash");
 			
 			for (int i = 0; i < attrs.getAttributeCount(); i++) {
 				String name = attrs.getAttributeName(i);
 				if (name.equals("drawable")) {
-					imageView.setImageResource(attrs.getAttributeResourceValue(
-							i, 0));
+					imageView.setImageResource(attrs.getAttributeResourceValue(i, 0));
 				} else if (name.equals("caption")) {
-					String caption = ResourceUtils.getAttributeGetString(this,
-							attrs, i);
+					String caption = getCaption(attrs, i);
 					if (caption == null) {
 						textView.setVisibility(View.GONE);
 					} else {
@@ -103,6 +100,15 @@ public class SplashActivity extends Activity {
 		
 		imageView.startAnimation(AnimationUtils.loadAnimation(this,
 				R.anim.fadein));
+	}
+	
+	private String getCaption(AttributeSet attrs, int index) {
+		int res = attrs.getAttributeResourceValue(index, 0);
+		if (index == 0) {
+			return attrs.getAttributeValue(index);
+		}
+		
+		return getString(res);
 	}
 	
 }

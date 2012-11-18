@@ -7,6 +7,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Xml;
 
 /**
@@ -16,6 +17,8 @@ import android.util.Xml;
  */
 public abstract class ResourceUtils {
 	
+	protected static final String TAG = "ResourceUtils";
+
 	/**
 	 * Returns an AttributeSet by searching through the parser until the element is found.
 	 * 
@@ -53,6 +56,7 @@ public abstract class ResourceUtils {
 	 * @param name The name of the value to search for
 	 * @return The string, or null
 	 */
+	@Deprecated
 	public static String getAttributeGetString(Context context, AttributeSet attrs, String namespace, String name) {
 		int res = attrs.getAttributeResourceValue(namespace, name, 0);
 		if (res != 0) {
@@ -70,7 +74,10 @@ public abstract class ResourceUtils {
 	 * @param index The index of the attribute in the set
 	 * @return The string, or null
 	 */
+	@Deprecated
 	public static String getAttributeGetString(Context context, AttributeSet attrs, int index) {
+		Log.d(TAG, attrs.getAttributeValue(index));
+		
 		int res = attrs.getAttributeResourceValue(index, 0);
 		if (res != 0) {
 			return context.getString(res);

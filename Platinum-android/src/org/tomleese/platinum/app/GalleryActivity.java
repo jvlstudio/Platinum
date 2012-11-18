@@ -19,7 +19,8 @@ import org.tomleese.platinum.utils.IntentUtils;
 
 /**
  * An activity that can be used to choose a picture using the android gallery,
- * and receive the resulting Uri.
+ * and receive the resulting Uri. Like the CameraActivity, this activity creates
+ * a temporary file for the picked photo to be stored.
  * 
  * You should start this activity by using startActivityForResult. You can get
  * the Uri to the photo filename by using Intent.getData().
@@ -28,8 +29,9 @@ import org.tomleese.platinum.utils.IntentUtils;
  */
 public class GalleryActivity extends Activity {
 
+	protected static final String TAG = "GalleryActivity";
+
 	private static final int REQUEST_CODE = 0;
-	private static final String TAG = "GalleryActivity";
 	private static Uri sCurrentUri = null;
 
 	@Override
@@ -78,15 +80,14 @@ public class GalleryActivity extends Activity {
 							bitmap.recycle();
 
 							setResult(RESULT_OK,
-									IntentUtils
-											.createIntentWithData(sCurrentUri));
+									IntentUtils.createWithData(sCurrentUri));
 						}
 					} catch (IOException e) {
 						setResult(RESULT_CANCELED);
 					}
 				} else {
 					setResult(RESULT_OK,
-							IntentUtils.createIntentWithData(sCurrentUri));
+							IntentUtils.createWithData(sCurrentUri));
 				}
 			} else {
 				setResult(RESULT_CANCELED);

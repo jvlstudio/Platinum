@@ -2,7 +2,6 @@ package org.tomleese.platinum.widget;
 
 import org.tomleese.platinum.R;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -17,7 +16,6 @@ import android.graphics.RectF;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Region;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,14 +57,8 @@ public class DiagonalButtons extends View {
 		this(context, attrs, 0);
 	}
 	
-	@SuppressLint("NewApi")
 	public DiagonalButtons(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		
-		// FIXME: see if this is actually necessary?
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
 		
 		mPressedFilter = new PorterDuffColorFilter(Color.GRAY, Mode.MULTIPLY);
 		
@@ -207,8 +199,6 @@ public class DiagonalButtons extends View {
 		canvas2.clipPath(path2);
 		fillBackground(canvas2, mBackgroundRes2);
 		drawIcon(canvas2, mIconRes2, mButton2Position, viewWidth, viewHeight);
-				
-		invalidate();
 	}
 	
 	@Override
@@ -220,9 +210,6 @@ public class DiagonalButtons extends View {
 	
 	@Override
 	public void onDraw(Canvas canvas) {
-		int viewWidth = getWidth();
-		int viewHeight = getHeight();
-		
 		if (mBeingTouched1) {
 			mPaint.setColorFilter(mPressedFilter);
 		} else {
@@ -237,8 +224,6 @@ public class DiagonalButtons extends View {
 			mPaint.setColorFilter(null);
 		}
 		
-		Path path2 = createButtonPath(viewWidth, viewHeight, mButton2Position);
-		canvas.clipPath(path2);
 		canvas.drawBitmap(mButtonBitmap2, 0, 0, mPaint);
 	}
 	
@@ -320,6 +305,8 @@ public class DiagonalButtons extends View {
 		}
 		
 		recreateButtons();
+		invalidate();
+		requestLayout();
 	}
 	
 	public void setButton2Position(ButtonPosition pos) {
@@ -344,26 +331,36 @@ public class DiagonalButtons extends View {
 		}
 		
 		recreateButtons();
+		invalidate();
+		requestLayout();
 	}
 	
 	public void setBackgroundResource1(int r) {
 		mBackgroundRes1 = r;
 		recreateButtons();
+		invalidate();
+		requestLayout();
 	}
 	
 	public void setBackgroundResource2(int r) {
 		mBackgroundRes2 = r;
 		recreateButtons();
+		invalidate();
+		requestLayout();
 	}
 	
 	public void setIconResource1(int r) {
 		mIconRes1 = r;
 		recreateButtons();
+		invalidate();
+		requestLayout();
 	}
 	
 	public void setIconResource2(int r) {
 		mIconRes2 = r;
 		recreateButtons();
+		invalidate();
+		requestLayout();
 	}
 	
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<attr name="drawable" format="reference"></attr>
-	<attr name="caption" format="string"></attr>
+	<attr name="caption" format="reference|string"></attr>
 	<attr name="activity" format="string"></attr>
-	
+		
 	<declare-styleable name="DiagonalButtons">
 	    <attr name="background1" format="reference"></attr>
 	    <attr name="background2" format="reference"></attr>

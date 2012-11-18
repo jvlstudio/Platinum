@@ -2,24 +2,20 @@ package org.tomleese.platinum.app;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import org.tomleese.platinum.utils.FileUtils;
 import org.tomleese.platinum.utils.IntentUtils;
 
 /**
  * An activity that can be used to take a picture using the android camera, and
- * receive the resulting Uri.
+ * receive the resulting Uri. This activity will create a temporary file for the
+ * photo to be stored.
  * 
  * You should start this activity by using startActivityForResult. You can get
  * the Uri to the photo filename by using Intent.getData().
@@ -28,8 +24,10 @@ import org.tomleese.platinum.utils.IntentUtils;
  */
 public class CameraActivity extends Activity {
 
+	protected static final String TAG = "CameraActivity";
+	protected static final String METADATA = "org.tomleese.platinum.camera";
+
 	private static final int REQUEST_CODE = 1;
-	private static final String TAG = "CameraActivity";
 	private static Uri sCurrentUri = null;
 
 	@Override
@@ -66,28 +64,8 @@ public class CameraActivity extends Activity {
 			Log.d(TAG, "Got photo response from the camera");
 
 			if (resultCode == RESULT_OK) {
-				if (FileUtils.openFile(sCurrentUri).length() <= 0L) {
-					try {
-						InputStream is = getContentResolver().openInputStream(
-								data.getData());
-						Bitmap bitmap = BitmapFactory.decodeStream(is);
-						
-						if (bitmap != null) {
-							bitmap.compress(CompressFormat.JPEG, 100,
-									FileUtils.openFileOutStream(sCurrentUri));
-							bitmap.recycle();
-
-							setResult(RESULT_OK,
-									IntentUtils
-											.createIntentWithData(sCurrentUri));
-						}
-					} catch (IOException e) {
-						setResult(RESULT_CANCELED);
-					}
-				} else {
-					setResult(RESULT_OK,
-							IntentUtils.createIntentWithData(sCurrentUri));
-				}
+				setResult(RESULT_OK,
+						IntentUtils.createWithData(sCurrentUri));
 			} else {
 				setResult(RESULT_CANCELED);
 			}

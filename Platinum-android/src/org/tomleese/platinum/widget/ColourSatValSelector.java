@@ -8,7 +8,6 @@ import android.graphics.ComposeShader;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Shader;
 import android.graphics.Shader.TileMode;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -20,6 +19,10 @@ public class ColourSatValSelector extends View {
 	private Paint mPaint = new Paint();
 	private float mHue, mSat, mVal = 1f;
 	private OnSatValSelectedListener mListener;
+	
+	private LinearGradient mSatShader;
+	private LinearGradient mValueShader;
+	private ComposeShader mComposeShader;
 	
 	public static abstract class OnSatValSelectedListener {
 		
@@ -77,16 +80,7 @@ public class ColourSatValSelector extends View {
 	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas canvas) {
-		final int rgb = Color.HSVToColor(new float[] { mHue, 1f, 1f });
-		Shader value = new LinearGradient(0, 0, 0, this.getMeasuredHeight(),
-				Color.WHITE, Color.BLACK, TileMode.CLAMP);
-		Shader sat = new LinearGradient(0, 0, this.getMeasuredWidth(), 0,
-				Color.WHITE, rgb, TileMode.CLAMP);
-		
-		ComposeShader shader = new ComposeShader(value, sat,
-				PorterDuff.Mode.MULTIPLY);
-		
-		mPaint.setShader(shader);
+		mPaint.setShader(mComposeShader);
 		
 		canvas.drawRect(0, 0, this.getMeasuredWidth(),
 				this.getMeasuredHeight(), mPaint);
@@ -101,6 +95,21 @@ public class ColourSatValSelector extends View {
 		final float m = 4;
 		canvas.drawLine(x, y - m, x, y + m, mPaint);
 		canvas.drawLine(x - m, y, x + m, y, mPaint);
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		
+		final int rgb = Color.HSVToColor(new float[] { mHue, 1f, 1f });
+		
+		mValueShader = new LinearGradient(0, 0, 0, this.getMeasuredHeight(),
+				Color.WHITE, Color.BLACK, TileMode.CLAMP);
+		mSatShader = new LinearGradient(0, 0, this.getMeasuredWidth(), 0,
+				Color.WHITE, rgb, TileMode.CLAMP);
+		
+		mComposeShader = new ComposeShader(mValueShader, mSatShader,
+				PorterDuff.Mode.MULTIPLY);
 	}
 
 	@Override
@@ -150,7 +159,7 @@ public class ColourSatValSelector extends View {
 			mListener.onValue(val);
 		}
 	}
-
+	
 	public void setSaturation(float sat) {
 		mSat = sat;
 		

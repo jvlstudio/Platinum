@@ -12,7 +12,7 @@ public abstract class InputUtils {
 	
 	public static void hideSoftInput(Context context, View view) {
 		InputMethodManager manager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-		manager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+		manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 	
 }

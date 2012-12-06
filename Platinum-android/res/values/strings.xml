@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="splash">Splash</string>
-    <string name="error_camera">Sorry, I could not take a photo using the camera.</string>
-    <string name="error_gallery">Sorry, I could not choose that photo from the gallery.</string>
     
 </resources>

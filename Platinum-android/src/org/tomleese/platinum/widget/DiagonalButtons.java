@@ -216,7 +216,9 @@ public class DiagonalButtons extends View {
 			mPaint.setColorFilter(null);
 		}
 		
-		canvas.drawBitmap(mButtonBitmap1, 0, 0, mPaint);
+		if (mButtonBitmap1 != null) {
+			canvas.drawBitmap(mButtonBitmap1, 0, 0, mPaint);
+		}
 		
 		if (mBeingTouched2) {
 			mPaint.setColorFilter(mPressedFilter);
@@ -224,7 +226,9 @@ public class DiagonalButtons extends View {
 			mPaint.setColorFilter(null);
 		}
 		
-		canvas.drawBitmap(mButtonBitmap2, 0, 0, mPaint);
+		if (mButtonBitmap2 != null) {
+			canvas.drawBitmap(mButtonBitmap2, 0, 0, mPaint);
+		}
 	}
 	
 	private boolean inTriangle(ButtonPosition pos, float x, float y) {

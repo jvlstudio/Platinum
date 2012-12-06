@@ -75,7 +75,7 @@ public abstract class FileUtils {
 		return new FileOutputStream(FileUtils.openFile(uri));
 	}
 	
-	public static void copyFile(InputStream in, OutputStream out, boolean closeStreams) throws IOException {
+	public static void copyFile(InputStream in, OutputStream out, boolean closeInStream, boolean closeOutStream) throws IOException {
 		Log.d(TAG, "Copying streams: " + in.toString() + " -> " + out.toString());
 		
 		int len = 0;
@@ -84,10 +84,17 @@ public abstract class FileUtils {
 		    out.write(buffer, 0, len);
 		}
 		
-		if (closeStreams) {
+		if (closeInStream) {
 			in.close();
+		}
+		
+		if (closeOutStream) {
 			out.close();
 		}
+	}
+	
+	public static void copyFile(InputStream in, OutputStream out, boolean closeStreams) throws IOException {
+		copyFile(in, out, closeStreams, closeStreams);
 	}
 	
 	/**

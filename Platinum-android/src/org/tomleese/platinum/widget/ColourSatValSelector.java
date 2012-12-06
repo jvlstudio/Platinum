@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
 import android.graphics.Shader.TileMode;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,19 +30,34 @@ public class ColourSatValSelector extends View {
 		
 	}
 	
+	@SuppressLint("NewApi")
 	public ColourSatValSelector(Context context) {
 		super(context);
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+		    setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
 	}
-
+	
+	@SuppressLint("NewApi")
 	public ColourSatValSelector(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+		    setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
 	}
-
+	
+	@SuppressLint("NewApi")
 	public ColourSatValSelector(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+		    setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
 	}
-
+	
 	public void setHue(float hue) {
 		mHue = hue;
 		invalidate();
@@ -77,7 +93,7 @@ public class ColourSatValSelector extends View {
 		
 		mPaint.setShader(null);
 		
-		mPaint.setColor(Color.BLACK);
+		mPaint.setColor(mVal >= 0.5 ? Color.BLACK : Color.WHITE);
 		mPaint.setStrokeWidth(2);
 		
 		final float x = mSat / 1f * getMeasuredWidth();

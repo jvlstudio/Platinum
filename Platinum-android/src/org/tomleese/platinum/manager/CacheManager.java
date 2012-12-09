@@ -148,6 +148,13 @@ public class CacheManager {
 		Bundle bundle = mCache.get(convertKey(key));
 		bundle.setClassLoader(mContext.getClassLoader());
 		
+		// test if this bundle is from and older version of the app
+		try {
+			bundle.getLong(KEY_DATE);
+		} catch (RuntimeException e) {
+			return null;
+		}
+		
 		if (nullIfOld && isOld(bundle)) {
 			return null;
 		}
@@ -172,16 +179,20 @@ public class CacheManager {
 	 * @return True if item is in the store
 	 */
 	public boolean isCached(String key) {
-		return mCache.containsKey(convertKey(key));
+		return get(key) != null;
 	}
 	
 	private boolean isOld(Bundle bundle) {
-		long diff = System.currentTimeMillis() - bundle.getLong(KEY_DATE);
-		if (diff / 1000 > mTimeout) {
+		if (bundle == null) {
 			return true;
 		}
 		
-		return false;
+		long diff = System.currentTimeMillis() - bundle.getLong(KEY_DATE);
+		if (diff / 1000 < mTimeout) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**

@@ -17,6 +17,7 @@ import android.util.Log;
  * 
  * @author tom
  */
+@Deprecated
 public abstract class DatabaseUtils extends android.database.DatabaseUtils {
 
 	protected static final String TAG = "DatabaseUtils";

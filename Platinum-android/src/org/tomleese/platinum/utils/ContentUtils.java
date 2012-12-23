@@ -13,21 +13,25 @@ public abstract class ContentUtils {
 	
 	public static interface Content {
 		
-		public ContentValues toContentValues();
+		public void toContentValues(ContentValues values);
 		
 	}
 	
-	public static <T extends Content> void addToDatabase(SQLiteDatabase db, String table, T content, boolean closeDb) {
-		ContentValues values = content.toContentValues();
-		db.insert(table, null, values);
+	public static <T extends Content> long addToDatabase(SQLiteDatabase db, String table, T content, boolean closeDb) {
+		ContentValues values = new ContentValues();
+		content.toContentValues(values);
+		long id = db.insert(table, null, values);
 		
 		if (closeDb) {
 			db.close();
 		}
+		
+		return id;
 	}
 	
 	public static <T extends Content> void updateDatabase(SQLiteDatabase db, String table, T content, String whereClause, String[] whereArgs, boolean closeDb) {
-		ContentValues values = content.toContentValues();
+		ContentValues values = new ContentValues();
+		content.toContentValues(values);
 		db.update(table, values, whereClause, whereArgs);
 		
 		if (closeDb) {
@@ -64,6 +68,11 @@ public abstract class ContentUtils {
 		
 		Object array = Array.newInstance(klass, list.size());
 		return list.toArray((T[]) array);
+	}
+	
+	public static <T extends Content> T[] selectAllFromDatabase(SQLiteDatabase db, String table, Class<T> klass, boolean closeDb) {
+		Cursor cursor = db.query(table, null, null, null, null, null, null);
+		return selectFromDatabase(db, cursor, klass, true, closeDb);
 	}
 	
 }

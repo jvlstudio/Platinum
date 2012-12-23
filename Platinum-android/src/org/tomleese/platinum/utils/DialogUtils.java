@@ -79,14 +79,6 @@ public abstract class DialogUtils {
 	 */
 	public static ProgressDialog showProgressDialog(Context context,
 			String title, String message) {
-		if (title == null) {
-			title = "";
-		}
-		
-		if (message == null) {
-			message = "";
-		}
-		
 		return ProgressDialog.show(context, title, message);
 	}
 	

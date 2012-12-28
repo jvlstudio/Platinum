@@ -36,7 +36,7 @@ public abstract class IntentUtils {
 	public static Intent createIntentWithData(Uri data) {
 		return createWithData(data);
 	}
-
+	
 	/**
 	 * Convenience function that creates a new intent object with the action
 	 * provided and sets the data to the {@link android.net.Uri} provided.

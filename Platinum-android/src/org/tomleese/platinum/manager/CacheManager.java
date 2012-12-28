@@ -146,6 +146,10 @@ public class CacheManager {
 	 */
 	public Bundle get(String key, boolean nullIfOld) {
 		Bundle bundle = mCache.get(convertKey(key));
+		if (bundle == null) {
+			return null;
+		}
+		
 		bundle.setClassLoader(mContext.getClassLoader());
 		
 		// test if this bundle is from and older version of the app

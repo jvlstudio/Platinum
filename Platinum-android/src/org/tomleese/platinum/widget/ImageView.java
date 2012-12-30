@@ -73,26 +73,22 @@ public class ImageView extends android.widget.ImageView {
 	public ImageView(Context context) {
 		super(context);
 		
-		setImageMatrix(mMatrix);
-		setScaleType(ScaleType.MATRIX);
-		
-		mGestureDetector = new GestureDetector(getContext(), mGestureListener);
-		mScaleDetector = new ScaleGestureDetector(getContext(), mScaleListener);
+		initialise();
 	}
 	
 	public ImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
-		setImageMatrix(mMatrix);
-		setScaleType(ScaleType.MATRIX);
-		
-		mGestureDetector = new GestureDetector(getContext(), mGestureListener);
-		mScaleDetector = new ScaleGestureDetector(getContext(), mScaleListener);
+		initialise();
 	}
 	
 	public ImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		
+		initialise();
+	}
+	
+	private void initialise() {
 		setImageMatrix(mMatrix);
 		setScaleType(ScaleType.MATRIX);
 		
@@ -121,14 +117,9 @@ public class ImageView extends android.widget.ImageView {
 		
 		if (a || b) {
 			return true;
+		} else {
+			return false;
 		}
-		
-		return false;
-	}
-	
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 	
 }

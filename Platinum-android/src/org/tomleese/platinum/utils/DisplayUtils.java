@@ -1,9 +1,7 @@
 package org.tomleese.platinum.utils;
 
 import android.content.Context;
-import android.view.Display;
-import android.view.Surface;
-import android.view.WindowManager;
+import android.content.res.Configuration;
 
 /**
  * A set of utilities for working with the display.
@@ -13,28 +11,27 @@ import android.view.WindowManager;
 public abstract class DisplayUtils {
 	
 	/**
-	 * Provides a quick way of determining whether the display is being held portrait.
+	 * Provides a quick way of determining whether the display is being held
+	 * portrait.
 	 * 
 	 * @param context The context to get the Display from
 	 * @return True if the display is portrait
 	 */
 	public static final boolean isPortrait(Context context) {
-		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = manager.getDefaultDisplay();
-		int rotation = display.getRotation();
-		
-		return rotation == Surface.ROTATION_0
-				|| rotation == Surface.ROTATION_180;
+		return context.getResources().getConfiguration().orientation
+				== Configuration.ORIENTATION_PORTRAIT;
 	}
 	
 	/**
-	 * Provides a quick way of determining whether the display is being held landscape. This method simples returns the "not-ed" value of isPortrait.
+	 * Provides a quick way of determining whether the display is being held
+	 * landscape.
 	 * 
 	 * @param context The context to get the Display from
 	 * @return True if the display is landscape
 	 */
 	public static final boolean isLandscape(Context context) {
-		return !isPortrait(context);
+		return context.getResources().getConfiguration().orientation
+				== Configuration.ORIENTATION_LANDSCAPE;
 	}
 	
 }

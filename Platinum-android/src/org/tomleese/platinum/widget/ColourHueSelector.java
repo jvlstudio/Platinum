@@ -10,18 +10,25 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+/**
+ * A hue selector which allows the user to pick a hue.
+ * 
+ * @author Tom Leese
+ */
 public class ColourHueSelector extends ImageView {
 	
 	private OnHueSelectedListener mListener;
 	private float mHue = 0;
 	private Paint mPaint = new Paint();
 	
+	/**
+	 * An interface callback for when the hue has been selected.
+	 */
 	public static interface OnHueSelectedListener {
 
 		public void onHue(float hue);
 
 	}
-
 	public ColourHueSelector(Context context) {
 		super(context);
 		
@@ -43,14 +50,30 @@ public class ColourHueSelector extends ImageView {
 		setScaleType(ScaleType.FIT_XY);
 	}
 	
+	/**
+	 * Sets the OnHueSelectedListener for this ColourHueSelector.
+	 * 
+	 * @param listener The OnHueSelectedListener
+	 */
 	public void setOnHueSelectedListener(OnHueSelectedListener listener) {
 		mListener = listener;
 	}
 	
+	/**
+	 * Returns the currently selected hue value.
+	 * 
+	 * @return The hue
+	 */
 	public float getHue() {
 		return mHue;
 	}
-
+	
+	/**
+	 * Sets the current hue value, if a listener is set, the listener method
+	 * will be called.
+	 * 
+	 * @param hue The hue to change to
+	 */
 	public void setHue(float hue) {
 		mHue = hue;
 		

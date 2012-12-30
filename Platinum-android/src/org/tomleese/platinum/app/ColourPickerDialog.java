@@ -25,14 +25,14 @@ import android.view.View;
  * @author Tom Leese
  */
 public class ColourPickerDialog extends DialogFragment {
-
+	
 	/**
 	 * The interface callback used when a colour is picked.
 	 * 
 	 * @author Tom Leese
 	 */
 	public static interface OnColourPickedListener {
-
+		
 		/**
 		 * Called when a colour is picked.
 		 * 
@@ -44,13 +44,13 @@ public class ColourPickerDialog extends DialogFragment {
 		 * Called when the dialog is cancelled.
 		 */
 		public void onCancel();
-
+		
 	}
-
+	
 	private OnColourPickedListener mListener;
 	private int mColour = Color.BLACK;
 	private View mView;
-
+	
 	/**
 	 * Sets the picked listener for this dialog. 
 	 * 
@@ -59,7 +59,7 @@ public class ColourPickerDialog extends DialogFragment {
 	public void setOnColourPickedListener(OnColourPickedListener listener) {
 		mListener = listener;
 	}
-
+	
 	/**
 	 * Sets the current colour of the dialog.
 	 * 
@@ -69,23 +69,20 @@ public class ColourPickerDialog extends DialogFragment {
 		mColour = colour;
 		setViewColours(mColour);
 	}
-
+	
 	private void setViewColours(int colour) {
 		if (mView != null) {
-			final ColourHueSelector selectorHue = (ColourHueSelector) mView
-					.findViewById(R.id.selector_hue);
-			final ColourSatValSelector selectorSatVal = (ColourSatValSelector) mView
-					.findViewById(R.id.selector_sat_val);
-
+			ColourHueSelector selectorHue = (ColourHueSelector) mView.findViewById(R.id.selector_hue);
+			ColourSatValSelector selectorSatVal = (ColourSatValSelector) mView.findViewById(R.id.selector_sat_val);
+			
 			float hsv[] = { 0f, 1f, 1f };
-			Color.RGBToHSV(Color.red(colour), Color.green(colour),
-					Color.blue(colour), hsv);
-
+			Color.RGBToHSV(Color.red(colour), Color.green(colour), Color.blue(colour), hsv);
+			
 			selectorHue.setHue(hsv[0]);
 			selectorSatVal.setHue(hsv[0]);
 			selectorSatVal.setSaturation(hsv[1]);
 			selectorSatVal.setValue(hsv[2]);
-
+			
 			selectorHue.invalidate();
 			selectorSatVal.invalidate();
 		}
@@ -94,16 +91,16 @@ public class ColourPickerDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-
+		
 		mView = inflater.inflate(R.layout.dialog_colour_picker, null);
 
 		final ColourHueSelector selectorHue = (ColourHueSelector) mView
 				.findViewById(R.id.selector_hue);
 		final ColourSatValSelector selectorSatVal = (ColourSatValSelector) mView
 				.findViewById(R.id.selector_sat_val);
-
+		
 		setViewColours(mColour);
-
+		
 		selectorHue.setOnHueSelectedListener(new OnHueSelectedListener() {
 
 			@Override
@@ -112,46 +109,47 @@ public class ColourPickerDialog extends DialogFragment {
 			}
 
 		});
-
+		
 		return new AlertDialog.Builder(getActivity())
-				.setView(mView)
-				.setPositiveButton(android.R.string.ok, new OnClickListener() {
+			.setView(mView)
+			.setPositiveButton(android.R.string.ok, new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int button) {
+					dialog.dismiss();
 
-					@Override
-					public void onClick(DialogInterface dialog, int button) {
-						dialog.dismiss();
-
-						if (mListener != null) {
-							int colour = selectorSatVal.getColour();
-							mListener.onColour(colour);
-						}
+					if (mListener != null) {
+						int colour = selectorSatVal.getColour();
+						mListener.onColour(colour);
 					}
+				}
+				
+			})
+			.setNegativeButton(android.R.string.cancel, new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
 
-				})
-				.setNegativeButton(android.R.string.cancel,
-						new OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								dialog.dismiss();
-
-								if (mListener != null) {
-									mListener.onCancel();
-								}
-							}
-						}).setOnCancelListener(new OnCancelListener() {
-
-					@Override
-					public void onCancel(DialogInterface dialog) {
-						dialog.dismiss();
-
-						if (mListener != null) {
-							mListener.onCancel();
-						}
+					if (mListener != null) {
+						mListener.onCancel();
 					}
+				}
+				
+			})
+			.setOnCancelListener(new OnCancelListener() {
+				
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					dialog.dismiss();
 
-				}).create();
+					if (mListener != null) {
+						mListener.onCancel();
+					}
+				}
+				
+			})
+			.create();
 	}
-
+	
 }

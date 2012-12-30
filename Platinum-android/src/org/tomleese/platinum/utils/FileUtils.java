@@ -75,6 +75,18 @@ public abstract class FileUtils {
 		return new FileOutputStream(FileUtils.openFile(uri));
 	}
 	
+	/**
+	 * Copies all data from the input stream into the output stream.
+	 * 
+	 * @param in The input stream
+	 * @param out The output stream
+	 * @param closeInStream Whether the input stream should be closed once the
+	 *                      data has been copied
+	 * @param closeOutStream Whether the output stream should be closed once
+	 *                       the data has been copied
+	 * @throws IOException Whether an IOException happens when copying or
+	 *                     closing
+	 */
 	public static void copyFile(InputStream in, OutputStream out, boolean closeInStream, boolean closeOutStream) throws IOException {
 		Log.d(TAG, "Copying streams: " + in.toString() + " -> " + out.toString());
 		
@@ -93,6 +105,16 @@ public abstract class FileUtils {
 		}
 	}
 	
+	/**
+	 * Copies all data from the input stream into the output stream.
+	 * 
+	 * @param in The input stream
+	 * @param out The output stream
+	 * @param closeStreams Whether the streams should be closed once the data
+	 *                     has been copied
+	 * @throws IOException Whether an IOException happens when copying or
+	 *                     closing
+	 */
 	public static void copyFile(InputStream in, OutputStream out, boolean closeStreams) throws IOException {
 		copyFile(in, out, closeStreams, closeStreams);
 	}

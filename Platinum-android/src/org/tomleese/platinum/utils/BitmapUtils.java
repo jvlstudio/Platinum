@@ -19,12 +19,9 @@ public abstract class BitmapUtils {
 	 * the same as the original bitmap provided. This is to save memory on the
 	 * device.
 	 * 
-	 * @param original
-	 *            The original bitmap to transform
-	 * @param maxWidth
-	 *            The new maximum width
-	 * @param maxHeight
-	 *            The new maximum height
+	 * @param original The original bitmap to transform
+	 * @param maxWidth The new maximum width
+	 * @param maxHeight The new maximum height
 	 * @return The scaled bitmap
 	 */
 	public static Bitmap getScaledBitmap(Bitmap original, int maxWidth,

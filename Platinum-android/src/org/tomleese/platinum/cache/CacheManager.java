@@ -1,4 +1,4 @@
-package org.tomleese.platinum.manager;
+package org.tomleese.platinum.cache;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +20,12 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.util.Log;
 
+/**
+ * A cache manager allows any {@link Bundle}s to be cached and returned within
+ * a time limit. 
+ * 
+ * @author Tom Leese
+ */
 public class CacheManager {
 
 	/**
@@ -37,11 +43,9 @@ public class CacheManager {
 	/**
 	 * Creates a new cache manager using the name and timeout.
 	 * 
-	 * @param name
-	 *            The name of the cache manager, and incidentally, the filename
-	 *            used to store the bundles.
-	 * @param timeout
-	 *            The timeout before an item is considered old
+	 * @param name The name of the cache manager, and incidentally, the
+	 *             filename used to store the bundles.
+	 * @param timeout The timeout before an item is considered old
 	 */
 	public CacheManager(Context context, String name, int timeout) {
 		mName = name;
@@ -204,7 +208,7 @@ public class CacheManager {
 	 * doesn't is cached, this returns true.
 	 * 
 	 * @param key The key to look for the bundle
-	 * @return 
+	 * @return True if the cached item is old
 	 */
 	public boolean isOld(String key) {
 		if (!isCached(key)) {

@@ -56,10 +56,8 @@ public class SplashActivity extends Activity {
 		TextView textView = (TextView) findViewById(R.id.activity_splash_caption);
 		
 		try {
-			ActivityInfo app = getPackageManager().getActivityInfo(
-					getComponentName(),
-					PackageManager.GET_ACTIVITIES
-							| PackageManager.GET_META_DATA);
+			int flags = PackageManager.GET_ACTIVITIES | PackageManager.GET_META_DATA;
+			ActivityInfo app = getPackageManager().getActivityInfo(getComponentName(), flags);
 			Bundle metaData = app.metaData;
 			
 			final int res = metaData.getInt(METADATA, 0);
@@ -82,13 +80,14 @@ public class SplashActivity extends Activity {
 					final Intent nextIntent = new Intent(this, klass);
 					
 					new Handler().postDelayed(new Runnable() {
+						
 						public void run() {
 							startActivity(nextIntent);
 							finish();
 							
-							overridePendingTransition(R.anim.fadein,
-									R.anim.fadeout);
+							overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 						}
+						
 					}, 1600);
 				}
 			}
@@ -98,8 +97,7 @@ public class SplashActivity extends Activity {
 			e.printStackTrace();
 		}
 		
-		imageView.startAnimation(AnimationUtils.loadAnimation(this,
-				R.anim.fadein));
+		imageView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fadein));
 	}
 	
 	private String getCaption(AttributeSet attrs, int index) {

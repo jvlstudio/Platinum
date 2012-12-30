@@ -29,6 +29,9 @@ public class DiagonalButtons extends View {
 	
 	protected static final String TAG = "DiagonalButtons";
 	
+	/**
+	 * Button positions for the first or second button.
+	 */
 	public static enum ButtonPosition {
 		NorthEast,
 		NorthWest,
@@ -279,14 +282,29 @@ public class DiagonalButtons extends View {
 		return true;
 	}
 	
+	/**
+	 * Sets the button click listener for button 1.
+	 * 
+	 * @param listener The OnClickListener
+	 */
 	public void setOnButton1ClickListener(OnClickListener listener) {
 		mBtn1Listener = listener;
 	}
 	
+	/**
+	 * Sets the button click listener for button 2.
+	 * 
+	 * @param listener The OnClickListener
+	 */
 	public void setOnButton2ClickListener(OnClickListener listener) {
 		mBtn2Listener = listener;
 	}
 	
+	/**
+	 * Sets the button position for button 1.
+	 * 
+	 * @param pos The button position
+	 */
 	public void setButton1Position(ButtonPosition pos) {
 		mButton1Position = pos;
 		
@@ -313,6 +331,11 @@ public class DiagonalButtons extends View {
 		requestLayout();
 	}
 	
+	/**
+	 * Sets the button position for button 2.
+	 * 
+	 * @param pos The button position
+	 */
 	public void setButton2Position(ButtonPosition pos) {
 		mButton2Position = pos;
 		
@@ -339,6 +362,11 @@ public class DiagonalButtons extends View {
 		requestLayout();
 	}
 	
+	/**
+	 * Sets the background resource for button 1.
+	 * 
+	 * @param r The drawable resource
+	 */
 	public void setBackgroundResource1(int r) {
 		mBackgroundRes1 = r;
 		recreateButtons();
@@ -346,6 +374,11 @@ public class DiagonalButtons extends View {
 		requestLayout();
 	}
 	
+	/**
+	 * Sets the background resource for button 2.
+	 * 
+	 * @param r The drawable resource
+	 */
 	public void setBackgroundResource2(int r) {
 		mBackgroundRes2 = r;
 		recreateButtons();
@@ -353,6 +386,11 @@ public class DiagonalButtons extends View {
 		requestLayout();
 	}
 	
+	/**
+	 * Sets the icon resource for button 1.
+	 * 
+	 * @param r The drawable resource
+	 */
 	public void setIconResource1(int r) {
 		mIconRes1 = r;
 		recreateButtons();
@@ -360,6 +398,11 @@ public class DiagonalButtons extends View {
 		requestLayout();
 	}
 	
+	/**
+	 * Sets the icon resource for button 2.
+	 * 
+	 * @param r The drawable resource
+	 */
 	public void setIconResource2(int r) {
 		mIconRes2 = r;
 		recreateButtons();

@@ -28,30 +28,28 @@ import org.tomleese.platinum.utils.IntentUtils;
  * @author Tom Leese
  */
 public class GalleryActivity extends Activity {
-
+	
 	protected static final String TAG = "GalleryActivity";
-
+	
 	private static final int REQUEST_CODE = 0;
 	private static Uri sCurrentUri = null;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		try {
 			Intent intent = new Intent(Intent.ACTION_PICK);
 			intent.setType("image/*");
-
-			File tempFile = File.createTempFile("gallery", ".jpg",
-					getExternalCacheDir());
+			
+			File tempFile = File.createTempFile("gallery", ".jpg", getExternalCacheDir());
 			sCurrentUri = Uri.fromFile(tempFile);
-
-			Log.d(TAG, "Creating temporary file for gallery image: "
-					+ sCurrentUri.toString());
-
+			
+			Log.d(TAG, "Creating temporary file for gallery image: " + sCurrentUri.toString());
+			
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, sCurrentUri);
 			intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.name());
-
+			
 			Log.d(TAG, "Requested gallery intent...");
 			startActivityForResult(intent, REQUEST_CODE);
 		} catch (IOException e) {
@@ -59,42 +57,40 @@ public class GalleryActivity extends Activity {
 			finish();
 		}
 	}
-
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
+		
 		if (requestCode == REQUEST_CODE) {
 			Log.d(TAG, "Got photo from gallery...");
-
+			
 			if (resultCode == RESULT_OK) {
 				if (FileUtils.openFile(sCurrentUri).length() <= 0L) {
 					try {
-						InputStream is = getContentResolver().openInputStream(
-								data.getData());
+						InputStream is = getContentResolver().openInputStream(data.getData());
 						Bitmap bitmap = BitmapFactory.decodeStream(is);
-
-						if (bitmap != null) {
-							bitmap.compress(CompressFormat.JPEG, 100,
-									FileUtils.openFileOutStream(sCurrentUri));
+						
+						if (bitmap == null) {
+							setResult(RESULT_CANCELED);
+						} else {
+							bitmap.compress(CompressFormat.JPEG, 100, FileUtils.openFileOutStream(sCurrentUri));
 							bitmap.recycle();
 
-							setResult(RESULT_OK,
-									IntentUtils.createWithData(sCurrentUri));
+							setResult(RESULT_OK, IntentUtils.createWithData(sCurrentUri));
 						}
 					} catch (IOException e) {
 						setResult(RESULT_CANCELED);
 					}
 				} else {
-					setResult(RESULT_OK,
-							IntentUtils.createWithData(sCurrentUri));
+					setResult(RESULT_OK, IntentUtils.createWithData(sCurrentUri));
 				}
 			} else {
 				setResult(RESULT_CANCELED);
 			}
 		}
-
+		
 		finish();
 	}
-
+	
 }

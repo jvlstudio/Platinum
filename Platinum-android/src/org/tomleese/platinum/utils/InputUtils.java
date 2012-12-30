@@ -4,6 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+/**
+ * Utilities for working with input methods.
+ */
 public abstract class InputUtils {
 	
 	private InputUtils() {

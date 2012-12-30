@@ -14,6 +14,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ * A Saturation and Value colour selector for colours.
+ * 
+ * @author Tom Leese
+ */
 public class ColourSatValSelector extends View {
 	
 	private Paint mPaint = new Paint();
@@ -24,11 +29,36 @@ public class ColourSatValSelector extends View {
 	private LinearGradient mValueShader;
 	private ComposeShader mComposeShader;
 	
+	/**
+	 * A callback listener for when a colour has been chosen.
+	 * 
+	 * @author Tom Leese
+	 */
 	public static abstract class OnSatValSelectedListener {
 		
-		public void onSaturation(float sat) { }
-		public void onValue(float val) { }
+		/**
+		 * Called when a saturation has been chosen.
+		 * 
+		 * @param sat The saturation
+		 */
+		public void onSaturation(float sat) {
+			
+		}
 		
+		/**
+		 * Called when a value has been chosen.
+		 * 
+		 * @param val The value
+		 */
+		public void onValue(float val) {
+			
+		}
+		
+		/**
+		 * Called when a colour has been chosen.
+		 * 
+		 * @param colour The colour
+		 */
 		public abstract void onColour(int colour);
 		
 	}
@@ -61,23 +91,31 @@ public class ColourSatValSelector extends View {
 		}
 	}
 	
+	/**
+	 * Sets the hue value for the saturation and value.
+	 * 
+	 * @param hue Sets the hue value
+	 */
 	public void setHue(float hue) {
 		mHue = hue;
 		invalidate();
 	}
 	
+	/**
+	 * Sets the OnSatValSelectedListener for this view.
+	 * 
+	 * @param listener The OnSatValSelectedListener
+	 */
 	public void setOnSatValSelectedListener(OnSatValSelectedListener listener) {
 		mListener = listener;
 	}
-
-	@SuppressLint("DrawAllocation")
+	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		invalidate();
 	}
-
-	@SuppressLint("DrawAllocation")
+	
 	@Override
 	protected void onDraw(Canvas canvas) {
 		mPaint.setShader(mComposeShader);
@@ -152,6 +190,11 @@ public class ColourSatValSelector extends View {
 		return super.onTouchEvent(event);
 	}
 	
+	/**
+	 * Sets the current value.
+	 * 
+	 * @param val The value
+	 */
 	public void setValue(float val) {
 		mVal = val;
 		
@@ -160,6 +203,11 @@ public class ColourSatValSelector extends View {
 		}
 	}
 	
+	/**
+	 * Sets the current saturation.
+	 * 
+	 * @param sat The saturation
+	 */
 	public void setSaturation(float sat) {
 		mSat = sat;
 		
@@ -168,6 +216,11 @@ public class ColourSatValSelector extends View {
 		}
 	}
 	
+	/**
+	 * Returns the currently selected colour.
+	 * 
+	 * @return The currently selected colour
+	 */
 	public int getColour() {
 		return Color.HSVToColor(new float[] { mHue, mSat, mVal });
 	}

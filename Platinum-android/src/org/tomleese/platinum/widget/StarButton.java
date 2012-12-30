@@ -9,6 +9,12 @@ import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.CheckBox;
 
+/**
+ * A {@link CheckBox} which displays a star which fits into the android Holo
+ * theme. 
+ * 
+ * @author Tom Leese
+ */
 public class StarButton extends CheckBox {
 	
 	public StarButton(Context context) {

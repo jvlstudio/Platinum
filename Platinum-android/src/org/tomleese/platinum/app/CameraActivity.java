@@ -23,31 +23,28 @@ import org.tomleese.platinum.utils.IntentUtils;
  * @author Tom Leese
  */
 public class CameraActivity extends Activity {
-
+	
 	protected static final String TAG = "CameraActivity";
 	protected static final String METADATA = "org.tomleese.platinum.camera";
-
+	
 	private static final int REQUEST_CODE = 1;
 	private static Uri sCurrentUri = null;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		try {
-			Intent intent = new Intent(
-					android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-			File tempFile = File.createTempFile("camera", ".jpg",
-					getExternalCacheDir());
+			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			
+			File tempFile = File.createTempFile("camera", ".jpg", getExternalCacheDir());
 			sCurrentUri = Uri.fromFile(tempFile);
-
-			Log.d(TAG, "Creating temporary file for camera image: "
-					+ sCurrentUri.toString());
-
+			
+			Log.d(TAG, "Creating temporary file for camera image: " + sCurrentUri.toString());
+			
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, sCurrentUri);
 			intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.name());
-
+			
 			Log.d(TAG, "Requested camera intent...");
 			startActivityForResult(intent, REQUEST_CODE);
 		} catch (IOException e) {
@@ -55,23 +52,22 @@ public class CameraActivity extends Activity {
 			finish();
 		}
 	}
-
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
+		
 		if (requestCode == REQUEST_CODE) {
 			Log.d(TAG, "Got photo response from the camera");
-
+			
 			if (resultCode == RESULT_OK) {
-				setResult(RESULT_OK,
-						IntentUtils.createWithData(sCurrentUri));
+				setResult(RESULT_OK, IntentUtils.createWithData(sCurrentUri));
 			} else {
 				setResult(RESULT_CANCELED);
 			}
 		}
-
+		
 		finish();
 	}
-
+	
 }

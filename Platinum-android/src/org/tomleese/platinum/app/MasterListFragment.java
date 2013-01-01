@@ -21,13 +21,6 @@ public abstract class MasterListFragment extends ListFragment implements MasterF
 	private int mCurPosition = -1;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		
-	}
-	
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		

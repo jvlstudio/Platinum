@@ -76,9 +76,7 @@ public abstract class MasterListFragment extends ListFragment implements MasterF
 	public void setItemSelected(int index) {
 		Log.d(TAG, "setItemSelected(" + index + ")");
 		mCurPosition = index;
-		
 		getListView().setItemChecked(index, true);
-		getListView().setSelection(index);
 	}
 	
 	public void clearChoices() {

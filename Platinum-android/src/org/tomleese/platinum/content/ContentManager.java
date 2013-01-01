@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -106,28 +104,15 @@ public class ContentManager<T extends Content> {
 	@SuppressWarnings("unchecked")
 	public T[] select(String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit, boolean distinct) {
 		SQLiteDatabase db = mDatabase.getWritableDatabase();
-		Cursor cursor = db.query(distinct, mTable, null, selection, selectionArgs, groupBy, having, orderBy, limit);
-		
-		ContentValues values = new ContentValues();
-		
+		ContentCursor<T> cursor = (ContentCursor<T>) db.query(distinct, mTable,
+				null, selection, selectionArgs, groupBy, having, orderBy,
+				limit);
+				
 		List<T> items = new ArrayList<T>();
 		
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			try {
-				T content = mClass.newInstance();
-				
-				values.clear();
-				DatabaseUtils.cursorRowToContentValues(cursor, values);
-				content.fromContentValues(values);
-				
-				items.add(content);
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			
+			items.add(cursor.toContent());
 			cursor.moveToNext();
 		}
 		

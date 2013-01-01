@@ -15,7 +15,7 @@ import android.widget.ListView;
  */
 public abstract class MasterListFragment extends ListFragment implements MasterFragment {
 	
-	private static final String TAG = "ListSelectionFragment";
+	private static final String TAG = "MasterListFragment";
 	private static final String SAVE_CURRENT_POSITION = "org.tomleese.platinum.current_position";
 	
 	private int mCurPosition = -1;
@@ -36,7 +36,7 @@ public abstract class MasterListFragment extends ListFragment implements MasterF
 	@Override
 	public void onViewStateRestored(Bundle savedInstanceState) {
 		super.onViewStateRestored(savedInstanceState);
-		
+				
 		if (savedInstanceState != null) {
 			mCurPosition = savedInstanceState.getInt(SAVE_CURRENT_POSITION, mCurPosition);
 			Log.d(TAG, "Restored saved instance: " + mCurPosition);
@@ -76,7 +76,9 @@ public abstract class MasterListFragment extends ListFragment implements MasterF
 	public void setItemSelected(int index) {
 		Log.d(TAG, "setItemSelected(" + index + ")");
 		mCurPosition = index;
+		
 		getListView().setItemChecked(index, true);
+		getListView().setSelection(index);
 	}
 	
 	public void clearChoices() {

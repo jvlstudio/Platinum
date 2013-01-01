@@ -36,7 +36,7 @@ public abstract class ContentDatabase<T extends Content> extends SQLiteOpenHelpe
 	 * @param klass The class for the {@link ContentManager}
 	 */
 	public ContentDatabase(Context context, String dbName, String tableName, int version, Class<T> klass) {
-		super(context, dbName, null, version);
+		super(context, dbName, new ContentCursorFactory<T>(klass), version);
 		
 		mManager = new ContentManager<T>(this, tableName, klass);
 	}

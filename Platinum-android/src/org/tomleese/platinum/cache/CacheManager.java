@@ -27,7 +27,7 @@ import android.util.Log;
  * @author Tom Leese
  */
 public class CacheManager {
-
+	
 	/**
 	 * This key gets set on bundles when they are stored.
 	 */
@@ -195,7 +195,14 @@ public class CacheManager {
 			return true;
 		}
 		
-		long diff = System.currentTimeMillis() - bundle.getLong(KEY_DATE);
+		long diff = 0;
+		
+		try {
+			diff = System.currentTimeMillis() - bundle.getLong(KEY_DATE);
+		} catch (RuntimeException e) {
+			return false;
+		}
+		
 		if (diff / 1000 < mTimeout) {
 			return false;
 		}

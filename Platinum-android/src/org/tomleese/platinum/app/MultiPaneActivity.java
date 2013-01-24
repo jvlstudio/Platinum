@@ -6,6 +6,7 @@ package org.tomleese.platinum.app;
  *  
  * @author Tom Leese
  */
+@Deprecated
 public interface MultiPaneActivity {
 	
 	/**

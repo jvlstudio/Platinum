@@ -1,5 +1,6 @@
 package org.tomleese.platinum.app;
 
+@Deprecated
 public abstract interface MasterFragment {
 	
 	/**

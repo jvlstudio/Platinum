@@ -13,6 +13,7 @@ import android.widget.ListView;
  * 
  * @author Tom Leese
  */
+@Deprecated
 public abstract class MasterListFragment extends ListFragment implements MasterFragment {
 	
 	private static final String TAG = "MasterListFragment";
